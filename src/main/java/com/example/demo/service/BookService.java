@@ -5,6 +5,8 @@ import com.example.demo.mapper.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -35,5 +37,16 @@ public class BookService {
     @Transactional
     public int deleteById(Integer id) {
         return bookMapper.deleteById(id);
+    }
+
+    public PageInfo<Book> searchBooks(String name, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Book> list;
+        if (name != null && !name.trim().isEmpty()) {
+            list = bookMapper.searchByName(name);
+        } else {
+            list = bookMapper.findAll();
+        }
+        return new PageInfo<>(list);
     }
 }

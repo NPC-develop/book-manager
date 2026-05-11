@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Book;
 import com.example.demo.service.BookService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +49,13 @@ public class BookController {
     @GetMapping("/test")
     public String test() {
         return "ok";
+    }
+
+    @GetMapping("/search")
+    public PageInfo<Book> search(
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
+        return bookService.searchBooks(name, pageNum, pageSize);
     }
 }

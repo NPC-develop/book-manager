@@ -23,4 +23,8 @@ public interface BookMapper {
 
     @Delete("DELETE FROM book WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT * FROM book WHERE name LIKE CONCAT('%', #{name}, '%')")
+    List<Book> searchByName( String name);
+
 }
